@@ -12,6 +12,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserSignUpDto } from './dto/user-signup.dto';
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
+import { UserSignInDto } from './dto/user-signin.dto';
 
 @Controller('users')
 export class UsersController {
@@ -20,6 +21,19 @@ export class UsersController {
   @Post('signup')
   async signup(@Body() userSignUpDto: UserSignUpDto): Promise<UserDto> {
     return await this.usersService.signup(userSignUpDto);
+  }
+
+  @Post('signin')
+  async signin(
+    @Body() userSignInDto: UserSignInDto,
+  ): Promise<{ accessToken: string; user: UserDto }> {
+    const user = await this.usersService.signin(userSignInDto);
+    const accessToken = await this.usersService.accessToken(user);
+
+    return {
+      accessToken,
+      user,
+    };
   }
 
   @Post()
