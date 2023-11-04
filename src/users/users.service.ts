@@ -4,16 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { hash, compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
+import { sign } from 'jsonwebtoken';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserSignInDto } from './dto/user-signin.dto';
 import { UserSignUpDto } from './dto/user-signup.dto';
 import { UserDto } from './dto/user.dto';
 import { UserEntity } from './entities/user.entity';
-import { UserSignInDto } from './dto/user-signin.dto';
-import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
@@ -62,10 +61,6 @@ export class UsersService {
     return plainToInstance(UserDto, userExists, {
       excludeExtraneousValues: true,
     });
-  }
-
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
   }
 
   async findAll() {
