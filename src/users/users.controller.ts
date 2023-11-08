@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -49,7 +50,7 @@ export class UsersController {
 
   @UseGuards(AuthenticationGuard)
   @Get('single/:id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.usersService.findOne(id);
   }
 
